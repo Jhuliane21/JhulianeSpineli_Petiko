@@ -7,9 +7,13 @@ use Illuminate\Http\Request;
 class FormController extends Controller
 {
     public function PegaDados(Request $request){
+        $nome = $request->query('nome');
         $cep =$request->query('cep');
-        
-        if(isset($cep)){
+        $rua = $request->query('rua');
+        $bairro = $request->query('bairro');
+        $cidade = $request->query('cidade');
+        $numero = $request->query('numero');
+        if(isset($cep) && isset($nome) && isset($rua) && isset($bairro) && isset($cidade) && isset($numero)){
             $url = "https://api.postmon.com.br/v1/cep/".$cep;
             $resposta = file_get_contents($url);
             $respostaPHP = json_decode($resposta);
@@ -18,7 +22,9 @@ class FormController extends Controller
             }else{
                 echo "Existem problemas com o seu cadastro";
             }
-        }
+        }else{
+            echo "Termine de preencher os campos!";
+    }
         //print_r($respostaPHP->cidade);
         return view("Formulario");
     }
